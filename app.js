@@ -7,7 +7,8 @@ function pointsToPolygon(entryArr) {
 	let stringPoints = '';
 
 	for (let i = 0; i < entryArr.length; i++) {
-		stringPoints += ` ${entryArr[i].x},${entryArr[i].y}`;
+		// stringPoints += ` ${entryArr[i].x},${entryArr[i].y}`;
+		stringPoints += `${Object.values(entryArr[i])} `;
 
 	}
 	return stringPoints.trim();
@@ -28,45 +29,38 @@ for (let i = 0; i < arrLength; i++) {
 	arrNum.push(Math.round(Math.random() * 100));
 }
 console.log(`Original array is ${arrNum}`);
-
-function deleteDuplicate(arr) {
-
-	let duplicatedNums = arr.filter((item, index, arr) => {
-		return arr.indexOf(item) !== index;
-	});
-	let filteredArr = arr.filter((el) => {
-		return duplicatedNums.indexOf(el) < 0;
-	});
-
-	console.log(`Duplicated nums are ${duplicatedNums}`);
-	return filteredArr;
+function	getUniqueNumbers (numbers) {
+	let countInfo = {},
+		results = [];
+	for (let value of numbers) {
+		if (countInfo.hasOwnProperty(value)) {
+			countInfo[value]++;
+		} else {
+			countInfo[value] = 1;
+		}
+	}
+	for (let [value, count] of Object.entries(countInfo)) {
+		if (count === 1) {
+			results.push(Number(value));
+		}
+	}
+	return results;
 }
 
-console.log(`Filtered array is ${deleteDuplicate(arrNum)}`);
+console.log(`Filtered array is ${getUniqueNumbers(arrNum)}`);
 
 // Задание 3
 console.log(`\nTask 3`);
 
 let originalString = 'Lorem ipsum \n dolor sit amet, consectetur adipisicing elit. Adipisci magni nemo quas? \n Aliquam, dolorum ea earum, excepturi nemo officia officiis placeat, \nporro quibusdam quis rem sint sunt unde vero voluptas!';
 
-function refactorString(string) {
-
-	if (originalString.indexOf('\n') > 0) {
-		let arr = originalString.split('\n'),
-			refactoringString = '';
-
-		for (let i = 0; i < arr.length; i++) {
-			arr[i] = arr[i].trim();
-			if (i === 0) {
-				refactoringString += `<h1>${arr[i]}</h1>`;
-			} else {
-				refactoringString += `<p>${arr[i]}</p>`;
-			}
-		}
-		return refactoringString;
-	} else {
-		return 'Sorry, the string hasn`t the \\n';
+function trasformToHTML(text) {
+	let strings = text.split('\n'),
+		htmlStrings = new Array(strings.length);
+	for (let i = 0; i < strings.length; i++) {
+		htmlStrings[i] = i ? `<p>${strings[i]}</p>` : `<h1>${strings[i]}</h1>`
 	}
+	return htmlStrings.join('');
 }
 
-console.log(refactorString(originalString));
+console.log(trasformToHTML(originalString));
